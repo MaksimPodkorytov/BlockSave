@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package pipes_marking;
+
+import "helpers.proto";
+
+// Труба.
+message Pipe {
+    // `PublicKey` трубы.
+    exonum.PublicKey key = 1;
+    // Ключ организации-производителя трубы.
+    exonum.PublicKey producer = 2;
+    // Промаркирована ли труба (NFC метка).
+    bool marked = 3;
+    // Номер трубы.
+    uint32 number = 4;
+    // Номер партии.
+    uint32 batch = 5;
+    // Диаметр.
+    uint32 diameter = 6;
+    // Толщина стенки.
+    uint32 thickness = 7;
+    // Длина.
+    uint32 length = 8;
+    // Доп. поля.
+    string properties = 9;
+    // Length of the transactions history.
+    uint64 history_len = 14;
+    // `Hash` of the transactions history.
+    exonum.Hash history_hash = 15;
+}
+
+// Организация (производитель или поставщик)
+message Company {
+    // `PublicKey` организации.
+    exonum.PublicKey key = 1;
+    // Является ли организация производителем.
+    bool isProducer = 2;
+    // ИНН.
+    string inn = 3;
+    // Название.
+    string name = 4;
+    // Доп. поля.
+    string properties = 5;
+    // Length of the transactions history.
+    uint64 history_len = 6;
+    // `Hash` of the transactions history.
+    exonum.Hash history_hash = 7;
+}
+
+// Сотрудник.
+message Employee {
+    // `PublicKey` сотрудника.
+    exonum.PublicKey key = 1;
+    // Ключ организации, в которой работает сотрудник.
+    exonum.PublicKey company = 2;
+    // ФИО.
+    string name = 3;
+    // Может ли создавать продукт.
+    bool canCreate = 4;
+    // Может ли маркировать продукт.
+    bool canMark = 5;
+    // Может ли продавать продукт.
+    bool canSold = 6;
+    // Активен ли аккаунт.
+    bool isActive = 7;
+    // Length of the transactions history.
+    uint64 history_len = 8;
+    // `Hash` of the transactions history.
+    exonum.Hash history_hash = 9;
+}
+
+// Создание организации.
+message CreateCompany {
+    // Является ли организация производителем.
+    bool isProducer = 1;
+    // ИНН.
+    string inn = 2;
+    // Название.
+    string name = 3;
+    // Доп. поля.
+    string properties = 4;
+    // Временная метка
+    uint64 timestamp = 5;
+}
+
+// Создание сотрудника.
+message CreateEmployee {
+    // `PublicKey` сотрудника.
+    exonum.PublicKey key = 1;
+    // ФИО.
+    string name = 2;
+    // Может ли создавать продукт.
+    bool canCreate = 3;
+    // Может ли маркировать продукт.
+    bool canMark = 4;
+    // Может ли продавать продукт.
+    bool canSold = 5;
+    // Временная метка
+    uint64 timestamp = 6;
+}
+
+// Создание произведенной трубы.
+message CreatePipe {
+    // Номер трубы
+    uint32 number = 1;
+    // Номер партии
+    uint32 batch = 2;
+    // Диаметр
+    uint32 diameter = 3;
+    // Толщина стенки
+    uint32 thickness = 4;
+    // Длина
+    uint32 length = 5;
+    // Доп. поля
+    string properties = 6;
+    // Временная метка
+    uint64 timestamp = 7;
+}
+
+// Маркировка произведенной трубы.
+message MarkPipe {
+    // `PublicKey` трубы.
+    exonum.PublicKey pipe = 1;
+    // Временная метка
+    uint64 timestamp = 2;
+}
+
+// Продажа трубы (передача владения трубой).
+message ChangePipeOwner {
+    // `PublicKey` трубы.
+    exonum.PublicKey pipe = 1;
+    // Новый владелец трубы.
+    exonum.PublicKey newOwner = 2;
+    // Комментарий.
+    string comment = 3;
+    // Временная метка
+    uint64 timestamp = 4;
+}
