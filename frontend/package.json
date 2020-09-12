@@ -43,6 +43,6 @@
     "load-grunt-tasks": "^3.5.2",
     "request": "^2.87.0",
     "vueify": "^9.4.1",
-    "yargs-parser": "^9.0.2"
+    "yargs-parser": "^13.1.2"
   }
 }
